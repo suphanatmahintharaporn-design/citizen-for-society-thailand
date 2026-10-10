@@ -1,0 +1,27 @@
+databases:
+  - name: cst-members-db
+    plan: free
+    databaseName: cst
+    user: cst_user
+
+services:
+  - type: web
+    name: cst-members-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    preDeployCommand: npm run migrate
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cst-members-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGIN
+        value: https://suphanatmahintharaporn-design.github.io

@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cst
+      POSTGRES_USER: cst_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - cst_db_data:/var/lib/postgresql/data
+volumes:
+  cst_db_data:
